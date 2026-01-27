@@ -1,22 +1,24 @@
 # Stage 1: Build the application
-FROM maven:3.8.5-openjdk-17 AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
-# Copy only the pom.xml first to cache dependencies (faster builds)
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copy maven wrapper and pom first to leverage Docker cache
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
 
-# Copy the source code and build the project
+# Copy source and build
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN ./mvnw clean package -DskipTests
 
-# Stage 2: Run the application
-FROM openjdk:17-jdk-slim
+# Stage 2: Create the lightweight runtime image
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Copy the jar file from the build stage
-# Note: Replace 'my-app-1.0.jar' with your actual jar name
+# Copy only the built jar from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
+# Standard port for Spring Boot/Java apps
 EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
