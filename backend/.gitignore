@@ -1,8 +1,16 @@
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
+target/
+!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### Application properties ###
+application-local.properties
+
+### Environment variables ###
+.env
 
 ### STS ###
 .apt_generated
