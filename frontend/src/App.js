@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'; 
+import API_URL from './config';
 
 function App() {
   const [url, setUrl] = useState('');
@@ -47,7 +48,7 @@ function App() {
         requestBody.customCode = customCode.trim();
       }
 
-      const response = await fetch('http://localhost:8080/shorten', {
+      const response = await fetch(`${API_URL}/shorten`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody)
@@ -76,7 +77,7 @@ function App() {
   };
 
   const copyToClipboard = (code, itemId) => {
-    navigator.clipboard.writeText(`http://localhost:8080/${code}`);
+    navigator.clipboard.writeText(`${API_URL}/${code}`);
     setCopiedItem(itemId);
     setTimeout(() => setCopiedItem(null), 2000);
   };
@@ -92,7 +93,7 @@ function App() {
     if (selectedItem) {
       setLinkAnalytics(null);
       console.log('Fetching analytics for:', selectedItem.shortCode);
-      fetch(`http://localhost:8080/analytics/${selectedItem.shortCode}`)
+      fetch(`${API_URL}/analytics/${selectedItem.shortCode}`)
         .then(res => {
           console.log('Analytics response status:', res.status);
           if (!res.ok) {
@@ -168,8 +169,8 @@ function App() {
                 className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition pr-40"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-mono">
-                localhost:8080/
-              </div>
+                {API_URL.replace('https://', '').replace('http://', '')}/
+                              </div>
             </div>
             <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
               <span>💡</span>
@@ -217,17 +218,17 @@ function App() {
               <p className="text-xs text-gray-500 mb-2">Shortened URL:</p>
               <p className="text-lg font-mono font-bold text-blue-600 break-all mb-4">
                 <a
-                  href={`http://localhost:8080/${shortCode}`}
+                  href={`${API_URL}/${shortCode}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline hover:opacity-80 transition-all cursor-pointer"
                 >
-                  http://localhost:8080/{shortCode}
+                  `${API_URL}/${shortCode}`
                 </a>
               </p>
 
               <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
-                <QRCodeCanvas value={`http://localhost:8080/${shortCode}`} size={200} />
+              <QRCodeCanvas value={`${API_URL}/${shortCode}`} size={200} />
               </div>
             </div>
 
@@ -240,7 +241,7 @@ function App() {
                 {copiedItem === 'main' ? 'Copied!' : 'Copy Link'}
               </button>
               <button
-                onClick={() => window.open(`http://localhost:8080/${shortCode}`, '_blank')}
+               onClick={() => window.open(`${API_URL}/${shortCode}`, '_blank')}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2"
               >
                 <span>🔗</span> Visit Link
@@ -263,13 +264,13 @@ function App() {
                 >
                   <div className="flex gap-4">
                     <div className="flex-shrink-0">
-                      <QRCodeCanvas value={`http://localhost:8080/${item.shortCode}`} size={80} />
+  <QRCodeCanvas value={`${API_URL}/${shortCode}`} size={200} /> 
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-gray-500 mb-1">{item.timestamp}</p>
                       <p className="text-sm text-gray-700 truncate mb-2">{item.originalUrl}</p>
-                      <p className="text-sm font-mono text-blue-600">localhost:8080/{item.shortCode}</p>
+                      <p className="text-sm font-mono text-blue-600">{API_URL.replace('https://', '').replace('http://', '')}/{item.shortCode}</p>
                     </div>
 
                     <button
@@ -329,18 +330,18 @@ function App() {
                 <p className="text-sm font-semibold text-gray-500 mb-2">Short URL:</p>
                 <p className="text-lg font-mono font-bold text-blue-600 break-all bg-blue-50 p-3 rounded-lg">
                   <a
-                    href={`http://localhost:8080/${selectedItem.shortCode}`}
+                    href={`${API_URL}/${selectedItem.shortCode}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline"
                   >
-                    http://localhost:8080/{selectedItem.shortCode}
+                    {API_URL}/{selectedItem.shortCode}
                   </a>
                 </p>
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg flex justify-center">
-                <QRCodeCanvas value={`http://localhost:8080/${selectedItem.shortCode}`} size={250} />
+                <QRCodeCanvas value={`${API_URL}/${selectedItem.shortCode}`} size={250} />
               </div>
 
               {linkAnalytics && (
@@ -397,7 +398,7 @@ function App() {
                   {copiedItem === 'modal' ? '✅ Copied!' : '📋 Copy Link'}
                 </button>
                 <button
-                  onClick={() => window.open(`http://localhost:8080/${selectedItem.shortCode}`, '_blank')}
+                  onClick={() => window.open(`${API_URL}/${selectedItem.shortCode}`, '_blank')}
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition"
                 >
                   🔗 Visit Link
