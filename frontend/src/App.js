@@ -76,11 +76,16 @@ function App() {
     }
   };
 
-  const copyToClipboard = (code, itemId) => {
-    navigator.clipboard.writeText(`${API_URL}/${code}`);
+const copyToClipboard = async (code, itemId) => {
+  try {
+    await navigator.clipboard.writeText(`${API_URL}/${code}`);
     setCopiedItem(itemId);
     setTimeout(() => setCopiedItem(null), 2000);
-  };
+  } catch (err) {
+    console.error('Clipboard copy failed', err);
+  }
+};
+
 
   const handleReset = () => {
     setUrl('');
@@ -139,7 +144,8 @@ function App() {
                 setUrl(e.target.value);
                 setError('');
               }}
-              onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+
               placeholder="https://example.com/your-very-long-url..."
               className={`w-full px-6 py-4 text-lg border-2 rounded-lg focus:outline-none transition ${
                 error ? 'border-red-400 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
@@ -223,12 +229,14 @@ function App() {
                   rel="noopener noreferrer"
                   className="hover:underline hover:opacity-80 transition-all cursor-pointer"
                 >
-                  `${API_URL}/${shortCode}`
+                 {`${API_URL}/${shortCode}`}
+          
                 </a>
               </p>
 
               <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
-              <QRCodeCanvas value={`${API_URL}/${item.shortCode}`} size={200} />
+             <QRCodeCanvas value={`${API_URL}/${item.shortCode}`} size={200} />
+
               </div>
             </div>
 
