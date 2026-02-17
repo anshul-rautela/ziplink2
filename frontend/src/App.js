@@ -235,7 +235,7 @@ const copyToClipboard = async (code, itemId) => {
               </p>
 
               <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
-             <QRCodeCanvas value={`${API_URL}/${item.shortCode}`} size={200} />
+             <QRCodeCanvas value={`${API_URL}/${shortCode}`} size={200} />
 
               </div>
             </div>
