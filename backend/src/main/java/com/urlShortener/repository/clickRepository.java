@@ -12,12 +12,12 @@ import java.util.List;
 public interface clickRepository extends JpaRepository<Click,Long> {
     Long countByShortCode(String shortCode);//It runs this: SELECT COUNT(*) FROM clicks WHERE short_code = 'abc123'
 
-    @Query("SELECT DATE(c.clickedAt) as date, COUNT(c) as count " +
-            "FROM Click c " +
-            "WHERE c.shortCode = :shortCode " +
-            "AND c.clickedAt >= :startDate " +
-            "GROUP BY DATE(c.clickedAt) " +
-            "ORDER BY date")
+        @Query("SELECT CAST(c.clickedAt AS date) as date, COUNT(c) as count " +
+           "FROM Click c " +
+           "WHERE c.shortCode = :shortCode " +
+           "AND c.clickedAt >= :startDate " +
+           "GROUP BY CAST(c.clickedAt AS date) " +
+           "ORDER BY date DESC")
     List<Object[]> getClicksByDay(@Param("shortCode") String shortCode,
                                   @Param("startDate") LocalDateTime startDate);
 }
