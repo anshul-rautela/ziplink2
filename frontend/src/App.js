@@ -174,8 +174,7 @@ const copyToClipboard = async (code, itemId) => {
                 placeholder="my-custom-link"
                 className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition pr-40"
               />
-
-             </div>
+            </div>
             <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
               <span>💡</span>
               Leave empty for a random code, or create your own memorable link
@@ -276,7 +275,7 @@ const copyToClipboard = async (code, itemId) => {
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-gray-500 mb-1">{item.timestamp}</p>
                       <p className="text-sm text-gray-700 truncate mb-2">{item.originalUrl}</p>
-                      <p className="text-sm font-mono text-blue-600">{API_URL.replace('https://', '').replace('http://', '')}/{item.shortCode}</p>
+                      {/* <p className="text-sm font-mono text-blue-600">{API_URL.replace('https://', '').replace('http://', '')}/{item.shortCode}</p> */}
                     </div>
 
                     <button
