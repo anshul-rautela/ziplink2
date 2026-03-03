@@ -174,9 +174,6 @@ const copyToClipboard = async (code, itemId) => {
                 placeholder="my-custom-link"
                 className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition pr-40"
               />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-mono">
-                {API_URL.replace('https://', '').replace('http://', '')}/
-                              </div>
             </div>
             <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
               <span>💡</span>
