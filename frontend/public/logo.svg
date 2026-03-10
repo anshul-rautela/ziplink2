@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Simpler, bolder logo for favicon -->
+  <rect width="512" height="512" fill="#6366f1"/>
+  
+  <!-- Chain link design - much thicker and simpler -->
+  <g transform="translate(256, 256)">
+    <!-- Left link - bold and chunky -->
+    <path d="M -140,-70 L -60,-70 A 70,70 0 0,1 -60,70 L -140,70 A 100,100 0 0,1 -140,-70 Z" 
+          fill="none" stroke="#ffffff" stroke-width="45" stroke-linecap="round"/>
+    
+    <!-- Right link - bold and chunky -->
+    <path d="M 140,-70 L 60,-70 A 70,70 0 0,0 60,70 L 140,70 A 100,100 0 0,0 140,-70 Z" 
+          fill="none" stroke="#ffffff" stroke-width="45" stroke-linecap="round"/>
+    
+    <!-- Lightning bolt - bigger and bolder -->
+    <path d="M 15,-60 L -20,5 L 5,5 L -15,65 L 30,0 L 5,0 Z" 
+          fill="#fbbf24" stroke="#ffffff" stroke-width="3"/>
+  </g>
+</svg>
