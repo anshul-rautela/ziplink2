@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Ultra simple, maximum visibility favicon -->
+  <rect width="100" height="100" fill="#6366f1" rx="20"/>
+  
+  <!-- Single massive "Z" letter -->
+  <text x="50" y="75" font-family="Arial Black, sans-serif" font-size="70" font-weight="900" fill="#ffffff" text-anchor="middle">Z</text>
+  
+  <!-- Small lightning bolt accent -->
+  <path d="M 70,25 L 60,35 L 65,35 L 58,48 L 68,38 L 63,38 Z" fill="#fbbf24"/>
+</svg>
