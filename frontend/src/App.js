@@ -261,18 +261,18 @@ const copyToClipboard = async (code, itemId) => {
               <span>📝</span> Recent Links
             </h3>
             <div className="space-y-3">
-              {history.map((item, index) => (
+             {history.map((item, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedItem(item)}
                   className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow-md transition cursor-pointer"
                 >
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0">
-  <QRCodeCanvas value={`${API_URL}/${shortCode}`} size={200} /> 
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-shrink-0 mx-auto sm:mx-0">
+                      <QRCodeCanvas value={`${API_URL}/${item.shortCode}`} size={80} />
                     </div>
 
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 text-center sm:text-left">
                       <p className="text-xs text-gray-500 mb-1">{item.timestamp}</p>
                       <p className="text-sm text-gray-700 truncate mb-2">{item.originalUrl}</p>
                       <p className="text-sm font-mono text-blue-600">{API_URL.replace('https://', '').replace('http://', '')}/{item.shortCode}</p>
@@ -283,7 +283,7 @@ const copyToClipboard = async (code, itemId) => {
                         e.stopPropagation();
                         copyToClipboard(item.shortCode, `history-${index}`);
                       }}
-                      className="text-gray-400 hover:text-blue-500 transition text-xl flex-shrink-0"
+                      className="text-gray-400 hover:text-blue-500 transition text-xl flex-shrink-0 mx-auto sm:mx-0"
                       title="Copy"
                     >
                       {copiedItem === `history-${index}` ? '✅' : '📋'}
