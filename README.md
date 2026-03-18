@@ -3,6 +3,7 @@
 A full-stack URL shortener application built with **Spring Boot** (backend) and **React** (frontend), inspired by Bitly. Transform long URLs into short, shareable links with QR code generation and click analytics.
 
 ![Java](https://img.shields.io/badge/java-17-orange.svg)
+![Spring Boot](https://img.shields.io/badge/springboot-4.0.1-green.svg)
 ![React](https://img.shields.io/badge/react-19.2-blue.svg)
 
 ## 🌐 Live Demo
