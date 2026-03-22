@@ -19,7 +19,7 @@ public class Click {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "short_code", nullable = false)
+    @Column(name = "short_code")
     private String shortCode;
     
     @Column(name = "clicked_at", nullable = false)

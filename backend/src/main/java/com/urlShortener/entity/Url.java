@@ -20,7 +20,7 @@ public class Url {
     @Column(name = "original_url", nullable = false, columnDefinition = "TEXT")
     private String originalUrl;
     
-    @Column(name = "short_code", unique = true, nullable = false, length = 255)
+    @Column(name = "short_code", unique = true, length = 255)
     // REMOVED the MySQL collation - PostgreSQL doesn't need it
     private String shortCode;
     
