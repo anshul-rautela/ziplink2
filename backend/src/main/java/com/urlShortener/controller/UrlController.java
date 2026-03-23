@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,15 @@ import java.util.Map;
 public class UrlController {
     private final urlService service;
     private final clickRepository clickRepository;
+    
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> healthCheck() {
+        Map<String, String> status = new HashMap<>();
+        status.put("status", "UP");
+        status.put("timestamp", LocalDateTime.now().toString());
 
+        return ResponseEntity.ok(status);
+    }
     @PostMapping("/shorten")
     public Map<String, String> shorten(@RequestBody Map<String, String> payload) {
         Url url = Url.builder().originalUrl(payload.get("originalUrl")).build();
