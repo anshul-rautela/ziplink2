@@ -30,4 +30,16 @@ public class Click {
     
     @Column(name = "user_agent", columnDefinition = "TEXT")
     private String userAgent;
+
+    @Column(name = "referrer")
+    private String referrer;
+
+    @Column(name = "device", length = 50)
+    private String device;
+
+    @Column(name = "browser", length = 50)
+    private String browser;
+
+    @Column(name = "platform", length = 50)
+    private String platform;
 }

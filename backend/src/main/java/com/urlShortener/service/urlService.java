@@ -4,6 +4,7 @@ import com.urlShortener.entity.Url;
 import com.urlShortener.exception.InvalidCustomCodeException;
 import com.urlShortener.repository.UrlRepository;
 import com.urlShortener.util.Base62Encoder;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,4 +50,16 @@ public class urlService {
         return url.getOriginalUrl();
     }
 
+    public List<Url> getUrlsByUser(String username) {
+        return repo.findByUser_UsernameOrderByCreatedAtDesc(username);
+    }
+
+    public boolean isOwner(String shortCode, String username) {
+        Url url = repo.findByShortCode(shortCode);
+        return url != null && url.getUser() != null && url.getUser().getUsername().equals(username);
+    }
+
+    public Url getUrlByShortCode(String shortCode) {
+        return repo.findByShortCode(shortCode);
+    }
 }   

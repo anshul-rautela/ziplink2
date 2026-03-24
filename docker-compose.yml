@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 1. Database - PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: ziplink-db
+    restart: always
+    environment:
+      POSTGRES_DB: ziplink
+      POSTGRES_USER: anshul
+      POSTGRES_PASSWORD: anshul@123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ziplink-network
+
+  # 2. Backend - Spring Boot
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ziplink-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      # These variables override your application.properties
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ziplink
+      - SPRING_DATASOURCE_USERNAME=anshul
+      - SPRING_DATASOURCE_PASSWORD=anshul@123
+      - JWT_SECRET=ziplink-super-secret-key-that-is-at-least-32-chars-long-xyz
+      - JWT_EXPIRATION_MS=86400000
+    depends_on:
+      - db
+    networks:
+      - ziplink-network
+
+  # 3. Frontend - React served by Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ziplink-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - ziplink-network
+
+networks:
+  ziplink-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

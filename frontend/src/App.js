@@ -1,436 +1,526 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'; 
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import API_URL from './config';
+import { useAuth } from './AuthContext';
 
-function App() {
+/* ─── small helpers ─── */
+const isValidUrl = (s) => {
+  try { const u = new URL(s); return u.protocol === 'http:' || u.protocol === 'https:'; }
+  catch { return false; }
+};
+
+function NavBar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-inner">
+        <a href="/" className="navbar-brand">
+          <div className="navbar-logo">🔗</div>
+          <span className="navbar-brand-text">ZipLink</span>
+        </a>
+
+        <div className="navbar-actions">
+          {user ? (
+            <>
+              <div className="navbar-user">
+                <div className="navbar-avatar">{user.username[0].toUpperCase()}</div>
+                <span>{user.username}</span>
+              </div>
+              <button className="btn btn-danger btn-sm" onClick={logout}>
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="btn btn-ghost btn-sm" onClick={() => navigate('/login')}>Sign in</button>
+              <button className="btn btn-primary btn-sm" onClick={() => navigate('/register')}>Get started</button>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* ─── Analytics Modal ─── */
+function AnalyticsModal({ item, onClose }) {
+  const { authFetch } = useAuth();
+  const [analytics, setAnalytics] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    authFetch(`${API_URL}/analytics/${item.shortCode}`)
+      .then(r => r.json())
+      .then(d => { setAnalytics(d); setLoading(false); })
+      .catch(() => { setAnalytics({ totalClicks: 0, dailyClicks: [] }); setLoading(false); });
+  }, [item.shortCode, authFetch]);
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2 className="modal-title">📊 Link Details</h2>
+          <button className="modal-close" onClick={onClose}>✕</button>
+        </div>
+
+        {/* URL info */}
+        <div className="mb-4">
+          <p className="text-xs text-muted mb-1">ORIGINAL URL</p>
+          <p className="text-sm break-all" style={{ color: 'var(--text-secondary)' }}>{item.originalUrl}</p>
+        </div>
+        <div className="mb-4">
+          <p className="text-xs text-muted mb-1">SHORT LINK</p>
+          <a
+            href={`${API_URL}/code/${item.shortCode}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono font-bold"
+            style={{ color: 'var(--accent-light)', fontSize: '1.1rem' }}
+          >
+            {API_URL.replace(/https?:\/\//, '')}/code/{item.shortCode}
+          </a>
+        </div>
+
+        {/* QR */}
+        <div className="qr-wrapper mb-4">
+          <QRCodeCanvas
+            value={`${API_URL}/code/${item.shortCode}`}
+            size={220}
+            bgColor="transparent"
+            fgColor="#ffffff"
+          />
+        </div>
+
+        {/* Copy / Visit */}
+        <div className="grid-2 mb-6">
+          <CopyBtn code={item.shortCode} id="modal" />
+          <button
+            className="btn btn-success"
+            onClick={() => window.open(`${API_URL}/code/${item.shortCode}`, '_blank')}
+          >
+            🔗 Visit Link
+          </button>
+        </div>
+
+        {/* Analytics */}
+        <div className="divider">Analytics</div>
+
+        {loading ? (
+          <div className="text-center" style={{ padding: '24px', color: 'var(--text-muted)' }}>
+            <span className="spinner" style={{ borderTopColor: 'var(--accent)' }}></span>
+          </div>
+        ) : (
+          <>
+            <div className="analytics-total">
+              <div className="analytics-number">{analytics?.totalClicks ?? 0}</div>
+              <div className="analytics-label">total clicks</div>
+            </div>
+
+            {analytics?.dailyClicks?.length > 0 ? (
+              <div className="chart-wrapper mt-4">
+                <p className="text-sm font-bold mb-4" style={{ color: 'var(--text-secondary)' }}>
+                  📈 Daily Clicks — last 30 days
+                </p>
+                <ResponsiveContainer width="100%" height={200}>
+                  <LineChart data={analytics.dailyClicks}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                    <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#6060a0' }} />
+                    <YAxis tick={{ fontSize: 11, fill: '#6060a0' }} />
+                    <Tooltip
+                      contentStyle={{ background: '#1a1a28', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#ffffff' }}
+                      formatter={v => [`${v} clicks`, '']}
+                    />
+                    <Line type="monotone" dataKey="count" stroke="#2563eb" strokeWidth={3} dot={{ fill: '#2563eb', r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="alert alert-info mt-4">
+                <span className="alert-icon">🔗</span>
+                <span>No clicks yet. Share your link to see daily data!</span>
+              </div>
+            )}
+
+            {/* Referrers & Devices */}
+            <div className="grid-2 mt-6">
+              <div className="flex flex-col gap-4">
+                <AnalyticsPie title="🌐 Top Referrers" data={analytics?.referrers} />
+                <DetailList title="Referrer Stats" data={analytics?.referrers} />
+              </div>
+              <div className="flex flex-col gap-4">
+                <AnalyticsPie title="📱 Device Types" data={analytics?.devices} />
+                <DetailList title="Device Stats" data={analytics?.devices} />
+              </div>
+            </div>
+
+            <div className="grid-2 mt-6">
+              <div className="flex flex-col gap-4">
+                <AnalyticsPie title="🌐 Browsers" data={analytics?.browsers} />
+                <DetailList title="Browser Stats" data={analytics?.browsers} />
+              </div>
+              <div className="flex flex-col gap-4">
+                <AnalyticsPie title="💻 Platforms" data={analytics?.platforms} />
+                <DetailList title="Platform Stats" data={analytics?.platforms} />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DetailList({ title, data }) {
+  if (!data || data.length === 0) return null;
+  return (
+    <div className="mt-2 p-3 rounded-lg bg-white/5 border border-white/5">
+      <p className="text-xs font-bold text-muted uppercase tracking-wider mb-2" style={{ fontSize: '0.65rem' }}>{title}</p>
+      {data.map((item, i) => (
+        <div key={i} className="flex justify-between items-center py-1 border-b border-white/5 last:border-0">
+          <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>{item.name}</span>
+          <span className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{item.count}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AnalyticsPie({ title, data }) {
+  const COLORS = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'];
+  const hasData = data && data.length > 0;
+  
+  return (
+    <div className="chart-wrapper">
+      <p className="text-sm font-bold mb-4" style={{ color: 'var(--text-secondary)' }}>{title}</p>
+      {hasData ? (
+        <ResponsiveContainer width="100%" height={180}>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="count"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={40}
+            outerRadius={60}
+            paddingAngle={5}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip 
+             contentStyle={{ background: '#1a1a28', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8 }}
+          />
+            <Legend iconSize={8} wrapperStyle={{ fontSize: '10px' }} />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <div className="text-center py-8 text-xs text-muted" style={{ minHeight: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          No data yet
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+/* ─── Copy button with feedback ─── */
+function CopyBtn({ code, id }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    await navigator.clipboard.writeText(`${API_URL}/code/${code}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button className={`btn ${copied ? 'btn-success' : 'btn-secondary'}`} onClick={copy}>
+      {copied ? '✅ Copied!' : '📋 Copy Link'}
+    </button>
+  );
+}
+
+/* ─── Main App ─── */
+export default function App() {
+  const { user, authFetch } = useAuth();
+  const navigate = useNavigate();
+
   const [url, setUrl] = useState('');
-  const [shortCode, setShortCode] = useState('');
   const [customCode, setCustomCode] = useState('');
-  const [copiedItem, setCopiedItem] = useState(null);
+  const [shortCode, setShortCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('zl_history') || '[]'); } catch { return []; }
+  });
   const [selectedItem, setSelectedItem] = useState(null);
-  const [linkAnalytics, setLinkAnalytics] = useState(null);
 
-  const isValidUrl = (string) => {
-    try {
-      const url = new URL(string);
-      return url.protocol === 'http:' || url.protocol === 'https:';
-    } catch {
-      return false;
+  // Sync history with backend if logged in
+  useEffect(() => {
+    if (user) {
+      authFetch(`${API_URL}/analytics`)
+        .then(r => r.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const formatted = data.map(u => ({
+              originalUrl: u.originalUrl,
+              shortCode: u.shortCode,
+              timestamp: new Date(u.createdAt).toLocaleString(),
+              clicks: u.totalClicks
+            }));
+            setHistory(formatted);
+          }
+        })
+        .catch(console.error);
     }
-  };
+  }, [user, authFetch]);
+
+  // Persist history to localStorage (for anonymous users)
+  useEffect(() => {
+    if (!user) {
+      localStorage.setItem('zl_history', JSON.stringify(history));
+    }
+  }, [history, user]);
 
   const handleSubmit = async () => {
-    if (!url.trim()) {
-      setError('Please enter a URL');
-      return;
-    }
-
-    if (!isValidUrl(url)) {
-      setError('Please enter a valid URL (include http:// or https://)');
-      return;
-    }
-
+    if (!url.trim()) { setError('Please enter a URL'); return; }
+    if (!isValidUrl(url)) { setError('Please enter a valid URL (include http:// or https://)'); return; }
     if (customCode && !/^[a-zA-Z0-9-_]+$/.test(customCode)) {
       setError('Custom code can only contain letters, numbers, hyphens, and underscores');
       return;
     }
+    // Removed mandatory sign-in check
 
     setLoading(true);
     setError('');
-
     try {
-      const requestBody = { originalUrl: url };
-      if (customCode.trim()) {
-        requestBody.customCode = customCode.trim();
-      }
+      const body = { originalUrl: url };
+      if (customCode.trim()) body.customCode = customCode.trim();
 
-      const response = await fetch(`${API_URL}/shorten`, {
+      const res = await authFetch(`${API_URL}/shorten`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(body),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server error: ${response.status}`);
+      if (res.status === 401) { setError('Session expired. Please log in again.'); return; }
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error || `Server error: ${res.status}`);
       }
 
-      const data = await response.json();
+      const data = await res.json();
       setShortCode(data.shortCode);
 
-      const newEntry = {
-        originalUrl: url,
-        shortCode: data.shortCode,
-        timestamp: new Date().toLocaleString()
-      };
-      setHistory(prev => [newEntry, ...prev].slice(0, 5));
-
-    } catch (error) {
-      setError(error.message || 'Failed to shorten URL. Make sure the backend is running.');
+      const entry = { originalUrl: url, shortCode: data.shortCode, timestamp: new Date().toLocaleString() };
+      setHistory(prev => [entry, ...prev].slice(0, 10));
+    } catch (e) {
+      setError(e.message || 'Failed to shorten URL.');
     } finally {
       setLoading(false);
     }
   };
 
-const copyToClipboard = async (code, itemId) => {
-  try {
-    await navigator.clipboard.writeText(`${API_URL}/${code}`);
-    setCopiedItem(itemId);
-    setTimeout(() => setCopiedItem(null), 2000);
-  } catch (err) {
-    console.error('Clipboard copy failed', err);
-  }
-};
-
-
-  const handleReset = () => {
-    setUrl('');
-    setShortCode('');
-    setCustomCode('');
-    setError('');
-  };
-
-  useEffect(() => {
-    if (selectedItem) {
-      setLinkAnalytics(null);
-      console.log('Fetching analytics for:', selectedItem.shortCode);
-      fetch(`${API_URL}/analytics/${selectedItem.shortCode}`)
-        .then(res => {
-          console.log('Analytics response status:', res.status);
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then(data => {
-          console.log('Analytics data received:', data);
-          setLinkAnalytics(data);
-        })
-        .catch(err => {
-          console.error('Analytics fetch error:', err);
-          setLinkAnalytics({ totalClicks: 0, clicksByDay: [] });
-        });
-    }
-  }, [selectedItem]);
+  const handleReset = () => { setUrl(''); setShortCode(''); setCustomCode(''); setError(''); };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-8">
-      <div className="max-w-3xl w-full bg-white rounded-2xl shadow-2xl p-6 sm:p-8">
-        <div className="text-center mb-8">
-          <div className="inline-block p-3 bg-blue-100 rounded-full mb-4">
-            <span className="text-4xl">🔗</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-2">
-            URL Shortener
+    <div className="page-wrapper">
+      <NavBar />
+
+      <main className="main-content">
+        {/* Hero header */}
+        <div className="dashboard-header">
+          <h1 className="dashboard-title">
+            Shorten. Share.<br />
+            <span className="gradient-text">Track everything.</span>
           </h1>
-          <p className="text-gray-600">
-            Transform long URLs into short, shareable links
+          <p className="dashboard-subtitle">
+            Transform long URLs into powerful short links with QR codes and real-time analytics.
           </p>
         </div>
 
-        <div className="space-y-4 mb-6">
-          <div className="relative">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Enter your long URL
-            </label>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-                setError('');
-              }}
-              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-
-              placeholder="https://example.com/your-very-long-url..."
-              className={`w-full px-6 py-4 text-lg border-2 rounded-lg focus:outline-none transition ${
-                error ? 'border-red-400 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
-              }`}
-            />
-            {url && (
-              <button
-                onClick={handleReset}
-                className="absolute right-3 top-[52px] -translate-y-1/2 text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                ×
-              </button>
-            )}
-          </div>
-
-          <div className="relative">
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-              Custom Short Code (Optional)
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={customCode}
-                onChange={(e) => setCustomCode(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-                placeholder="my-custom-link"
-                className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition pr-40"
-              />
-            </div>
-            <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-              <span>💡</span>
-              Leave empty for a random code, or create your own memorable link
-            </p>
-          </div>
-
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-              <span className="text-red-500 text-xl">⚠️</span>
-              <p className="text-red-700 text-sm flex-1">{error}</p>
-            </div>
-          )}
-
-          <button
-            onClick={handleSubmit}
-            disabled={loading || !url.trim()}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-bold py-4 px-6 rounded-lg shadow-md hover:shadow-xl transition duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="animate-spin">⏳</span> Shortening...
-              </span>
-            ) : (
-              <span className="flex items-center justify-center gap-2">
-                ✨ Shorten URL
-              </span>
-            )}
-          </button>
-        </div>
-
-        {shortCode && (
-          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6 space-y-4 animate-fadeIn">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">✅</span>
-              <p className="text-sm text-green-800 font-semibold">
-                Success! Your shortened URL:
-              </p>
-            </div>
-
-            <div className="bg-white p-4 rounded-lg border-2 border-green-300 shadow-sm">
-              <p className="text-xs text-gray-500 mb-2">Original URL:</p>
-              <p className="text-sm text-gray-700 mb-4 break-all">{url}</p>
-
-              <p className="text-xs text-gray-500 mb-2">Shortened URL:</p>
-              <p className="text-lg font-mono font-bold text-blue-600 break-all mb-4">
-                <a
-                  href={`${API_URL}/${shortCode}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:underline hover:opacity-80 transition-all cursor-pointer"
-                >
-                 {`${API_URL}/${shortCode}`}
-          
-                </a>
-              </p>
-
-              <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
-             <QRCodeCanvas value={`${API_URL}/${shortCode}`} size={200} />
-
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => copyToClipboard(shortCode, 'main')}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2"
-              >
-                <span>{copiedItem === 'main' ? '✅' : '📋'}</span>
-                {copiedItem === 'main' ? 'Copied!' : 'Copy Link'}
-              </button>
-              <button
-               onClick={() => window.open(`${API_URL}/${shortCode}`, '_blank')}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2"
-              >
-                <span>🔗</span> Visit Link
-              </button>
-            </div>
-          </div>
-        )}
-
+        {/* Stats bar */}
         {history.length > 0 && (
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <span>📝</span> Recent Links
-            </h3>
-            <div className="space-y-3">
-             {history.map((item, index) => (
-                <div
-                  key={index}
-                  onClick={() => setSelectedItem(item)}
-                  className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow-md transition cursor-pointer"
-                >
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-shrink-0 mx-auto sm:mx-0">
-                      <QRCodeCanvas value={`${API_URL}/${item.shortCode}`} size={80} />
-                    </div>
-
-                    <div className="flex-1 min-w-0 text-center sm:text-left">
-                      <p className="text-xs text-gray-500 mb-1">{item.timestamp}</p>
-                      <p className="text-sm text-gray-700 truncate mb-2">{item.originalUrl}</p>
-                      <p className="text-sm font-mono text-blue-600">{API_URL.replace('https://', '').replace('http://', '')}/{item.shortCode}</p>
-                    </div>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copyToClipboard(item.shortCode, `history-${index}`);
-                      }}
-                      className="text-gray-400 hover:text-blue-500 transition text-xl flex-shrink-0 mx-auto sm:mx-0"
-                      title="Copy"
-                    >
-                      {copiedItem === `history-${index}` ? '✅' : '📋'}
-                    </button>
-                  </div>
-                </div>
-              ))}
+          <div className="stats-bar" style={{ maxWidth: 900, margin: '0 auto 28px' }}>
+            <div className="stat-card">
+              <div className="stat-value">{history.length}</div>
+              <div className="stat-label">Links created</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{history.length > 0 ? history[0].shortCode : '—'}</div>
+              <div className="stat-label">Latest code</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">∞</div>
+              <div className="stat-label">Free forever</div>
             </div>
           </div>
         )}
 
-        <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-500 mb-2">Created with Spring Boot + React</p>
-          <p className="text-xs text-gray-400">Make sure your backend server is running on port 8080</p>
-        </div>
-      </div>
+        <div className="dashboard-grid">
+          {/* ── Shorten form ── */}
+          <div className="card">
+            <div className="shorten-card">
+              <p className="shorten-card-title">Paste your long URL</p>
 
-      {selectedItem && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-          onClick={() => setSelectedItem(null)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Link Details</h2>
-              <button
-                onClick={() => setSelectedItem(null)}
-                className="text-gray-400 hover:text-gray-600 text-3xl leading-none"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <p className="text-sm font-semibold text-gray-500 mb-2">Created:</p>
-                <p className="text-gray-700">{selectedItem.timestamp}</p>
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold text-gray-500 mb-2">Original URL:</p>
-                <p className="text-gray-700 break-all bg-gray-50 p-3 rounded-lg">{selectedItem.originalUrl}</p>
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold text-gray-500 mb-2">Short URL:</p>
-                <p className="text-lg font-mono font-bold text-blue-600 break-all bg-blue-50 p-3 rounded-lg">
-                  <a
-                    href={`${API_URL}/${selectedItem.shortCode}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
-                  >
-                    {API_URL}/{selectedItem.shortCode}
-                  </a>
-                </p>
-              </div>
-
-              <div className="bg-gray-50 p-6 rounded-lg flex justify-center">
-                <QRCodeCanvas value={`${API_URL}/${selectedItem.shortCode}`} size={250} />
-              </div>
-
-              {linkAnalytics && (
-                <div className="mt-6 space-y-4">
-                  <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <span>📊</span> Analytics
-                  </h3>
-                  
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border-2 border-blue-200">
-                    <p className="text-sm text-gray-600 mb-1">Total Clicks</p>
-                    <p className="text-4xl font-bold text-blue-600">{linkAnalytics.totalClicks || 0}</p>
-                  </div>
-
-                  {linkAnalytics.clicksByDay && linkAnalytics.clicksByDay.length > 0 && (
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                      <p className="text-sm font-semibold text-gray-700 mb-4">Clicks Over Time</p>
-                      
-                      <div className="w-full overflow-x-auto mb-4">
-                        <div className="min-w-[400px]">
-                          <LineChart width={500} height={200} data={linkAnalytics.clicksByDay}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                            <YAxis tick={{ fontSize: 12 }} />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="clicks" stroke="#3b82f6" strokeWidth={2} />
-                          </LineChart>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        {linkAnalytics.clicksByDay.map((day, i) => (
-                          <div key={i} className="flex justify-between items-center py-2 px-3 bg-white rounded border-b border-gray-100 last:border-0">
-                            <span className="text-sm text-gray-600">{day.date}</span>
-                            <span className="font-bold text-blue-600">{day.clicks} clicks</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+              <div className="form-group">
+                <div className="input-wrapper">
+                  <span className="input-icon" style={{ fontSize: '1.1rem' }}>🌐</span>
+                  <input
+                    type="text"
+                    className={`form-input form-input-lg input-with-icon ${error ? 'error' : ''}`}
+                    placeholder="https://example.com/your-very-long-url..."
+                    value={url}
+                    onChange={e => { setUrl(e.target.value); setError(''); }}
+                    onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  />
+                  {url && (
+                    <button className="input-clear" onClick={handleReset} title="Clear">×</button>
                   )}
+                </div>
+              </div>
 
-                  {(!linkAnalytics.clicksByDay || linkAnalytics.clicksByDay.length === 0) && linkAnalytics.totalClicks === 0 && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
-                      <p className="text-sm text-yellow-800">No clicks yet. Share your link to start tracking!</p>
-                    </div>
-                  )}
+              <div className="form-group">
+                <label className="form-label">Custom alias <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
+                <div className="input-wrapper">
+                  <span className="input-icon">✏️</span>
+                  <input
+                    type="text"
+                    className="form-input input-with-icon"
+                    placeholder="my-cool-link"
+                    value={customCode}
+                    onChange={e => setCustomCode(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  />
+                </div>
+                <p className="form-tip">💡 3–10 characters. Leave blank for an auto-generated code.</p>
+              </div>
+
+              {error && (
+                <div className="alert alert-error mb-4">
+                  <span className="alert-icon">⚠️</span>
+                  <span>{error}</span>
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => copyToClipboard(selectedItem.shortCode, 'modal')}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition"
+
+
+              <button
+                className="btn btn-primary btn-full btn-lg"
+                onClick={handleSubmit}
+                disabled={loading || !url.trim()}
+              >
+                {loading ? (
+                  <><span className="spinner"></span> Shortening…</>
+                ) : (
+                  <> ✨ Shorten URL</>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* ── Result card ── */}
+          {shortCode && (
+            <div className="result-card animate-slideup">
+              <div className="flex items-center gap-2 mb-4">
+                <span style={{ fontSize: '1.5rem' }}>🎉</span>
+                <span style={{ color: '#86efac', fontWeight: 700 }}>Your short link is ready!</span>
+              </div>
+
+              <div className="mb-2">
+                <p className="text-xs text-muted mb-1">SHORT URL</p>
+                <a
+                  href={`${API_URL}/code/${shortCode}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="result-url"
                 >
-                  {copiedItem === 'modal' ? '✅ Copied!' : '📋 Copy Link'}
-                </button>
+                  {API_URL.replace(/https?:\/\//, '')}/code/{shortCode}
+                </a>
+                <p className="result-original">{url}</p>
+              </div>
+
+              <div className="qr-wrapper">
+                <QRCodeCanvas
+                  value={`${API_URL}/code/${shortCode}`}
+                  size={200}
+                  bgColor="transparent"
+                  fgColor="#ffffff"
+                />
+              </div>
+
+              <div className="grid-2">
+                <CopyBtn code={shortCode} id="result" />
                 <button
-                  onClick={() => window.open(`${API_URL}/${selectedItem.shortCode}`, '_blank')}
-                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition"
+                  className="btn btn-success"
+                  onClick={() => window.open(`${API_URL}/code/${shortCode}`, '_blank')}
                 >
                   🔗 Visit Link
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      <style>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
+          {/* ── History ── */}
+          {history.length > 0 && (
+            <div className="card">
+              <div className="history-card">
+                <h2 className="section-title">
+                  📝 Recent Links
+                  <span className="section-title-badge">{history.length}</span>
+                </h2>
+
+                <div className="history-list">
+                  {history.map((item, i) => (
+                    <button
+                      key={i}
+                      className="history-item"
+                      onClick={() => setSelectedItem(item)}
+                    >
+                      <div className="history-qr">
+                        <QRCodeCanvas
+                          value={`${API_URL}/code/${item.shortCode}`}
+                          size={52}
+                          bgColor="transparent"
+                          fgColor="#9090c0"
+                        />
+                      </div>
+                      <div className="history-info">
+                        <div className="history-short">
+                          {API_URL.replace(/https?:\/\//, '')}/code/{item.shortCode}
+                        </div>
+                        <div className="history-original">{item.originalUrl}</div>
+                      </div>
+                      <span className="history-time">{item.timestamp}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer style={{
+        textAlign: 'center',
+        padding: '28px 24px',
+        borderTop: '1px solid var(--border)',
+        color: 'var(--text-muted)',
+        fontSize: '0.85rem',
+      }}>
+        Made with 🔗 <strong style={{ color: 'var(--accent-light)' }}>ZipLink</strong> · Spring Boot + React
+      </footer>
+
+      {/* Analytics modal */}
+      {selectedItem && (
+        <AnalyticsModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
     </div>
   );
 }
-
-export default App;
