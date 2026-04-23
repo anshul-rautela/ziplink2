@@ -51,21 +51,26 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String identifier = body.get("username");
+        if (identifier == null || identifier.isBlank()) {
+            identifier = body.get("email");
+        }
         String password = body.get("password");
 
+        org.springframework.security.core.Authentication auth;
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password));
+            auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(identifier, password));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Invalid username or password"));
         }
 
-        String token = jwtUtil.generateToken(username);
+        String actualUsername = auth.getName();
+        String token = jwtUtil.generateToken(actualUsername);
         return ResponseEntity.ok(Map.of(
                 "token", token,
-                "username", username
+                "username", actualUsername
         ));
     }
 

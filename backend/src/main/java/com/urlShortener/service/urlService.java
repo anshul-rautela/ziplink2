@@ -59,7 +59,9 @@ public class urlService {
         return url != null && url.getUser() != null && url.getUser().getUsername().equals(username);
     }
 
+    @org.springframework.cache.annotation.Cacheable(value = "urls", key = "#shortCode")
     public Url getUrlByShortCode(String shortCode) {
+        System.out.println("[INFO] Cache MISS for code: " + shortCode + ". Fetching from PostgreSQL and saving to Redis...");
         return repo.findByShortCode(shortCode);
     }
 }   

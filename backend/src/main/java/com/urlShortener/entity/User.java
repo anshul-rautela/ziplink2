@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
-public class User {
+public class User implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

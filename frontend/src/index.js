@@ -6,6 +6,7 @@ import App from './App';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import AnalyticsPage from './AnalyticsPage';
+import UnlockPage from './UnlockPage';
 import { AuthProvider, useAuth } from './AuthContext';
 import reportWebVitals from './reportWebVitals';
 
@@ -47,6 +48,7 @@ root.render(
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/analytics/:shortCode" element={<AnalyticsPage />} />
+            <Route path="/unlock/:shortCode" element={<UnlockPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AuthGate>

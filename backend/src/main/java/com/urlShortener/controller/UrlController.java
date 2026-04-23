@@ -36,13 +36,69 @@ public class UrlController {
         return ResponseEntity.ok(status);
     }
     @PostMapping("/shorten")
-    public Map<String, String> shorten(@RequestBody Map<String, String> payload, Principal principal) {
-        Url url = Url.builder().originalUrl(payload.get("originalUrl")).build();
+    public Map<String, String> shorten(@RequestBody Map<String, Object> payload, Principal principal) {
+        String originalUrl = (String) payload.get("originalUrl");
+        Url url = Url.builder().originalUrl(originalUrl).build();
+        
+        if (payload.containsKey("isProtected") && Boolean.TRUE.equals(payload.get("isProtected"))) {
+            url.setProtected(true);
+            url.setProtectionType((String) payload.get("protectionType"));
+            if ("PASSWORD".equals(url.getProtectionType())) {
+                url.setLinkPassword((String) payload.get("linkPassword"));
+            } else if ("EMAIL_LIST".equals(url.getProtectionType())) {
+                url.setAllowedEmails((java.util.List<String>) payload.get("allowedEmails"));
+            }
+        }
+
         if (principal != null) {
             userRepository.findByUsername(principal.getName()).ifPresent(url::setUser);
         }
-        String shortCode = service.shortenUrl(url, payload.get("customCode"));
+        String customCode = (String) payload.get("customCode");
+        String shortCode = service.shortenUrl(url, customCode);
         return Map.of("shortCode", shortCode);
+    }
+
+    @PostMapping("/unlock/{shortCode}")
+    public Map<String, String> unlock(@PathVariable String shortCode, @RequestBody Map<String, String> payload, Principal principal) {
+        Url urlEntity = service.getUrlByShortCode(shortCode.trim());
+        if (urlEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
+        
+        if (!urlEntity.isProtected()) {
+            return Map.of("originalUrl", urlEntity.getOriginalUrl());
+        }
+
+        if ("PASSWORD".equals(urlEntity.getProtectionType())) {
+            String password = payload.get("password");
+            if (password == null || !password.equals(urlEntity.getLinkPassword())) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+            }
+        } else if ("EMAIL_LIST".equals(urlEntity.getProtectionType())) {
+            if (principal == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required");
+            }
+            boolean isOwner = urlEntity.getUser() != null && urlEntity.getUser().getUsername().equals(principal.getName());
+            if (!isOwner) {
+                String userEmail = "";
+                java.util.Optional<com.urlShortener.entity.User> optUser = userRepository.findByUsername(principal.getName());
+                if (optUser.isPresent()) {
+                    userEmail = optUser.get().getEmail();
+                }
+                if (urlEntity.getAllowedEmails() == null || (!urlEntity.getAllowedEmails().contains(userEmail) && !urlEntity.getAllowedEmails().contains(principal.getName()))) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Email not authorized");
+                }
+            }
+        }
+        return Map.of("originalUrl", urlEntity.getOriginalUrl());
+    }
+
+    @GetMapping("/unlock/{shortCode}/info")
+    public Map<String, String> getUnlockInfo(@PathVariable String shortCode) {
+        Url urlEntity = service.getUrlByShortCode(shortCode.trim());
+        if (urlEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
+        if (!urlEntity.isProtected()) {
+            return Map.of("protectionType", "NONE");
+        }
+        return Map.of("protectionType", urlEntity.getProtectionType());
     }
 
 
@@ -70,24 +126,15 @@ public class UrlController {
         Url url = service.getUrlByShortCode(shortCode.trim());
         if (url == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
 
-        // Privacy check (Removed to allow public analytics as requested)
-        /*
-        if (url.getUser() != null) {
-            if (principal == null || !url.getUser().getUsername().equals(principal.getName())) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This URL is private to its creator");
-            }
-        }
-        */
+       
 
-        // Use the official shortCode from the URL entity for queries to ensure case-consistency
         String officialCode = url.getShortCode();
         Long totalClicks = clickRepository.countByShortCode(officialCode);
 
-        // Daily (last 30 days) stats using officialCode
+        // last 30 days
         LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
         List<Object[]> dailyData = clickRepository.getClicksByDay(officialCode, thirtyDaysAgo);
         
-        // Referrer, Device, Browser Stats using officialCode
         List<Object[]> referrers = clickRepository.getReferrerStats(officialCode);
         List<Object[]> devices = clickRepository.getDeviceStats(officialCode);
         List<Object[]> browsers = clickRepository.getBrowserStats(officialCode);
@@ -126,6 +173,15 @@ public class UrlController {
         Url urlEntity = service.getUrlByShortCode(shortCode.trim());
         if (urlEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
         
+        if (urlEntity.isProtected()) {
+            String frontendUrl = System.getenv("FRONTEND_URL");
+            if (frontendUrl == null || frontendUrl.isEmpty()) {
+                frontendUrl = "http://localhost:3000";
+            }
+            rv.setUrl(frontendUrl + "/unlock/" + urlEntity.getShortCode());
+            return rv;
+        }
+
         String officialCode = urlEntity.getShortCode();
         String newUrl = urlEntity.getOriginalUrl();
         rv.setUrl(newUrl);

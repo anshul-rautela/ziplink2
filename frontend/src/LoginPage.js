@@ -42,7 +42,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label" htmlFor="username">Username</label>
+              <label className="form-label" htmlFor="username">Username or Email</label>
               <div className="input-wrapper">
                 <span className="input-icon">👤</span>
                 <input
@@ -50,7 +50,7 @@ export default function LoginPage() {
                   name="username"
                   type="text"
                   className={`form-input input-with-icon ${error ? 'error' : ''}`}
-                  placeholder="your_username"
+                  placeholder="your_username or email@example.com"
                   value={form.username}
                   onChange={handleChange}
                   autoComplete="username"

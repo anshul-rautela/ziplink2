@@ -15,6 +15,16 @@ services:
     networks:
       - ziplink-network
 
+  # 1.5 Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: ziplink-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - ziplink-network
+
   # 2. Backend - Spring Boot
   backend:
     build: 
@@ -31,8 +41,11 @@ services:
       - SPRING_DATASOURCE_PASSWORD=anshul@123
       - JWT_SECRET=ziplink-super-secret-key-that-is-at-least-32-chars-long-xyz
       - JWT_EXPIRATION_MS=86400000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - db
+      - redis
     networks:
       - ziplink-network
 
@@ -41,6 +54,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=http://localhost:8080
     container_name: ziplink-frontend
     restart: always
     ports:

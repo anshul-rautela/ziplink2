@@ -50,10 +50,10 @@ public class SecurityConfig {
                 .requestMatchers("/auth/register", "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/health", "/favicon.ico").permitAll()
                 .requestMatchers(HttpMethod.GET, "/analytics", "/analytics/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/code/{shortCode}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/code/{shortCode}", "/unlock/{shortCode}/info").permitAll()
 
                 // Protected endpoints — require valid JWT
-                .requestMatchers(HttpMethod.POST, "/shorten").permitAll()
+                .requestMatchers(HttpMethod.POST, "/shorten", "/unlock/{shortCode}").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

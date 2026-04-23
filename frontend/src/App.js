@@ -252,6 +252,10 @@ export default function App() {
 
   const [url, setUrl] = useState('');
   const [customCode, setCustomCode] = useState('');
+  const [isProtected, setIsProtected] = useState(false);
+  const [protectionType, setProtectionType] = useState('PASSWORD');
+  const [linkPassword, setLinkPassword] = useState('');
+  const [allowedEmails, setAllowedEmails] = useState('');
   const [shortCode, setShortCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -302,6 +306,18 @@ export default function App() {
       const body = { originalUrl: url };
       if (customCode.trim()) body.customCode = customCode.trim();
 
+      if (isProtected) {
+        body.isProtected = true;
+        body.protectionType = protectionType;
+        if (protectionType === 'PASSWORD') {
+          if (!linkPassword) { setError('Please enter a password'); setLoading(false); return; }
+          body.linkPassword = linkPassword;
+        } else {
+          if (!allowedEmails) { setError('Please enter at least one allowed email'); setLoading(false); return; }
+          body.allowedEmails = allowedEmails.split(',').map(e => e.trim()).filter(e => e);
+        }
+      }
+
       const res = await authFetch(`${API_URL}/shorten`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -326,7 +342,10 @@ export default function App() {
     }
   };
 
-  const handleReset = () => { setUrl(''); setShortCode(''); setCustomCode(''); setError(''); };
+  const handleReset = () => { 
+    setUrl(''); setShortCode(''); setCustomCode(''); setError(''); 
+    setIsProtected(false); setProtectionType('PASSWORD'); setLinkPassword(''); setAllowedEmails('');
+  };
 
   return (
     <div className="page-wrapper">
@@ -400,6 +419,60 @@ export default function App() {
                 </div>
                 <p className="form-tip">💡 3–10 characters. Leave blank for an auto-generated code.</p>
               </div>
+
+              <div className="form-group" style={{ marginTop: '16px' }}>
+                <label className="flex items-center gap-2" style={{ cursor: 'pointer', color: 'var(--text-secondary)' }}>
+                  <input
+                    type="checkbox"
+                    checked={isProtected}
+                    onChange={e => setIsProtected(e.target.checked)}
+                  />
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>🔒 Protect this link</span>
+                </label>
+              </div>
+
+              {isProtected && (
+                <div style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
+                    <label className="form-label" style={{ fontSize: '0.85rem' }}>Who can access?</label>
+                    <div className="flex gap-4 mt-2" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                      <label className="flex items-center gap-2" style={{ cursor: 'pointer' }}>
+                        <input type="radio" name="protType" checked={protectionType === 'PASSWORD'} onChange={() => setProtectionType('PASSWORD')} />
+                        Anyone with password
+                      </label>
+                      <label className="flex items-center gap-2" style={{ cursor: 'pointer' }}>
+                        <input type="radio" name="protType" checked={protectionType === 'EMAIL_LIST'} onChange={() => setProtectionType('EMAIL_LIST')} />
+                        Specific logged-in users
+                      </label>
+                    </div>
+                  </div>
+
+                  {protectionType === 'PASSWORD' ? (
+                    <div className="form-group mb-0">
+                      <label className="form-label" style={{ fontSize: '0.85rem' }}>Link Password</label>
+                      <input
+                        type="password"
+                        className="form-input"
+                        placeholder="Enter password..."
+                        value={linkPassword}
+                        onChange={e => setLinkPassword(e.target.value)}
+                      />
+                    </div>
+                  ) : (
+                    <div className="form-group mb-0">
+                      <label className="form-label" style={{ fontSize: '0.85rem' }}>Allowed Emails (comma-separated)</label>
+                      <textarea
+                        className="form-input"
+                        placeholder="user1@example.com, user2@example.com"
+                        value={allowedEmails}
+                        onChange={e => setAllowedEmails(e.target.value)}
+                        rows={2}
+                        style={{ resize: 'none' }}
+                      ></textarea>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {error && (
                 <div className="alert alert-error mb-4">
