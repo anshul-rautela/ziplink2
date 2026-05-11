@@ -87,14 +87,14 @@ export default function UnlockPage() {
         
         {successUrl ? (
           <div className="text-center">
-             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚀</div>
+             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}></div>
              <h2 className="mb-2" style={{ color: '#86efac', marginTop: 0 }}>Access Granted!</h2>
              <p style={{ color: 'var(--text-secondary)' }}>Redirecting you to the destination...</p>
              <a href={successUrl} className="btn btn-primary mt-4" style={{ display: 'inline-block' }}>Proceed Now</a>
           </div>
         ) : (
           <>
-            <h2 className="text-center mb-4" style={{ color: 'var(--text-primary)', marginTop: 0 }}>🔒 Protected Link</h2>
+            <h2 className="text-center mb-4" style={{ color: 'var(--text-primary)', marginTop: 0 }}>Protected Link</h2>
             
             {protectionType === 'PASSWORD' && (
               <>
@@ -115,7 +115,7 @@ export default function UnlockPage() {
                   
                   {error && (
                     <div className="alert alert-error mb-4" style={{ fontSize: '0.85rem' }}>
-                      ⚠️ {error}
+                      {error}
                     </div>
                   )}
 
@@ -134,7 +134,7 @@ export default function UnlockPage() {
                 
                 {error && (
                   <div className="alert alert-error mb-4 text-left" style={{ fontSize: '0.85rem' }}>
-                    ⚠️ {error}
+                    {error}
                   </div>
                 )}
 
@@ -155,7 +155,7 @@ export default function UnlockPage() {
             
             {protectionType === null && error && (
                 <div className="alert alert-error" style={{ fontSize: '0.85rem' }}>
-                  ⚠️ {error}
+                  {error}
                 </div>
             )}
           </>

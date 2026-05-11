@@ -35,7 +35,7 @@ export default function LoginPage() {
       <div className="auth-card card animate-slideup">
         <div className="card-body">
           <div className="auth-header">
-            <div className="auth-icon">🔗</div>
+            <div className="auth-icon"></div>
             <h1 className="auth-title">Welcome back</h1>
             <p className="auth-subtitle">Sign in to your ZipLink account</p>
           </div>
@@ -44,7 +44,7 @@ export default function LoginPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="username">Username or Email</label>
               <div className="input-wrapper">
-                <span className="input-icon">👤</span>
+                <span className="input-icon"></span>
                 <input
                   id="username"
                   name="username"
@@ -62,7 +62,7 @@ export default function LoginPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="password">Password</label>
               <div className="input-wrapper">
-                <span className="input-icon">🔒</span>
+                <span className="input-icon"></span>
                 <input
                   id="password"
                   name="password"
@@ -78,7 +78,7 @@ export default function LoginPage() {
 
             {error && (
               <div className="alert alert-error mb-4">
-                <span className="alert-icon">⚠️</span>
+                <span className="alert-icon"></span>
                 <span>{error}</span>
               </div>
             )}
@@ -91,7 +91,7 @@ export default function LoginPage() {
               {loading ? (
                 <><span className="spinner"></span> Signing in…</>
               ) : (
-                <>✨ Sign In</>
+                <>Sign In</>
               )}
             </button>
           </form>

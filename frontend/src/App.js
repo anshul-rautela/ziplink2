@@ -19,7 +19,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <a href="/" className="navbar-brand">
-          <div className="navbar-logo">🔗</div>
+          <div className="navbar-logo"></div>
           <span className="navbar-brand-text">ZipLink</span>
         </a>
 
@@ -64,7 +64,7 @@ function AnalyticsModal({ item, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2 className="modal-title">📊 Link Details</h2>
+          <h2 className="modal-title">Link Details</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
@@ -103,7 +103,7 @@ function AnalyticsModal({ item, onClose }) {
             className="btn btn-success"
             onClick={() => window.open(`${API_URL}/code/${item.shortCode}`, '_blank')}
           >
-            🔗 Visit Link
+            Visit Link
           </button>
         </div>
 
@@ -124,7 +124,7 @@ function AnalyticsModal({ item, onClose }) {
             {analytics?.dailyClicks?.length > 0 ? (
               <div className="chart-wrapper mt-4">
                 <p className="text-sm font-bold mb-4" style={{ color: 'var(--text-secondary)' }}>
-                  📈 Daily Clicks — last 30 days
+                  Daily Clicks — last 30 days
                 </p>
                 <ResponsiveContainer width="100%" height={200}>
                   <LineChart data={analytics.dailyClicks}>
@@ -141,7 +141,7 @@ function AnalyticsModal({ item, onClose }) {
               </div>
             ) : (
               <div className="alert alert-info mt-4">
-                <span className="alert-icon">🔗</span>
+                <span className="alert-icon"></span>
                 <span>No clicks yet. Share your link to see daily data!</span>
               </div>
             )}
@@ -149,22 +149,22 @@ function AnalyticsModal({ item, onClose }) {
             {/* Referrers & Devices */}
             <div className="grid-2 mt-6">
               <div className="flex flex-col gap-4">
-                <AnalyticsPie title="🌐 Top Referrers" data={analytics?.referrers} />
+                <AnalyticsPie title="Top Referrers" data={analytics?.referrers} />
                 <DetailList title="Referrer Stats" data={analytics?.referrers} />
               </div>
               <div className="flex flex-col gap-4">
-                <AnalyticsPie title="📱 Device Types" data={analytics?.devices} />
+                <AnalyticsPie title="Device Types" data={analytics?.devices} />
                 <DetailList title="Device Stats" data={analytics?.devices} />
               </div>
             </div>
 
             <div className="grid-2 mt-6">
               <div className="flex flex-col gap-4">
-                <AnalyticsPie title="🌐 Browsers" data={analytics?.browsers} />
+                <AnalyticsPie title="Browsers" data={analytics?.browsers} />
                 <DetailList title="Browser Stats" data={analytics?.browsers} />
               </div>
               <div className="flex flex-col gap-4">
-                <AnalyticsPie title="💻 Platforms" data={analytics?.platforms} />
+                <AnalyticsPie title="Platforms" data={analytics?.platforms} />
                 <DetailList title="Platform Stats" data={analytics?.platforms} />
               </div>
             </div>
@@ -240,7 +240,7 @@ function CopyBtn({ code, id }) {
   };
   return (
     <button className={`btn ${copied ? 'btn-success' : 'btn-secondary'}`} onClick={copy}>
-      {copied ? '✅ Copied!' : '📋 Copy Link'}
+      {copied ? 'Copied!' : 'Copy Link'}
     </button>
   );
 }
@@ -389,7 +389,7 @@ export default function App() {
 
               <div className="form-group">
                 <div className="input-wrapper">
-                  <span className="input-icon" style={{ fontSize: '1.1rem' }}>🌐</span>
+                  <span className="input-icon" style={{ fontSize: '1.1rem' }}></span>
                   <input
                     type="text"
                     className={`form-input form-input-lg input-with-icon ${error ? 'error' : ''}`}
@@ -407,7 +407,7 @@ export default function App() {
               <div className="form-group">
                 <label className="form-label">Custom alias <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
                 <div className="input-wrapper">
-                  <span className="input-icon">✏️</span>
+                  <span className="input-icon"></span>
                   <input
                     type="text"
                     className="form-input input-with-icon"
@@ -417,7 +417,7 @@ export default function App() {
                     onKeyDown={e => e.key === 'Enter' && handleSubmit()}
                   />
                 </div>
-                <p className="form-tip">💡 3–10 characters. Leave blank for an auto-generated code.</p>
+                <p className="form-tip">3–10 characters. Leave blank for an auto-generated code.</p>
               </div>
 
               <div className="form-group" style={{ marginTop: '16px' }}>
@@ -427,7 +427,7 @@ export default function App() {
                     checked={isProtected}
                     onChange={e => setIsProtected(e.target.checked)}
                   />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>🔒 Protect this link</span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Protect this link</span>
                 </label>
               </div>
 
@@ -476,7 +476,7 @@ export default function App() {
 
               {error && (
                 <div className="alert alert-error mb-4">
-                  <span className="alert-icon">⚠️</span>
+                  <span className="alert-icon"></span>
                   <span>{error}</span>
                 </div>
               )}
@@ -491,7 +491,7 @@ export default function App() {
                 {loading ? (
                   <><span className="spinner"></span> Shortening…</>
                 ) : (
-                  <> ✨ Shorten URL</>
+                  <> Shorten URL</>
                 )}
               </button>
             </div>
@@ -501,7 +501,7 @@ export default function App() {
           {shortCode && (
             <div className="result-card animate-slideup">
               <div className="flex items-center gap-2 mb-4">
-                <span style={{ fontSize: '1.5rem' }}>🎉</span>
+                <span style={{ fontSize: '1.5rem' }}></span>
                 <span style={{ color: '#86efac', fontWeight: 700 }}>Your short link is ready!</span>
               </div>
 
@@ -533,7 +533,7 @@ export default function App() {
                   className="btn btn-success"
                   onClick={() => window.open(`${API_URL}/code/${shortCode}`, '_blank')}
                 >
-                  🔗 Visit Link
+                  Visit Link
                 </button>
               </div>
             </div>
@@ -544,7 +544,7 @@ export default function App() {
             <div className="card">
               <div className="history-card">
                 <h2 className="section-title">
-                  📝 Recent Links
+                  Recent Links
                   <span className="section-title-badge">{history.length}</span>
                 </h2>
 
@@ -587,7 +587,7 @@ export default function App() {
         color: 'var(--text-muted)',
         fontSize: '0.85rem',
       }}>
-        Made with 🔗 <strong style={{ color: 'var(--accent-light)' }}>ZipLink</strong> · Spring Boot + React
+        Made with <strong style={{ color: 'var(--accent-light)' }}>ZipLink</strong> · Spring Boot + React
       </footer>
 
       {/* Analytics modal */}

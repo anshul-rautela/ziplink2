@@ -4,10 +4,12 @@ import com.urlShortener.entity.Url;
 import com.urlShortener.exception.InvalidCustomCodeException;
 import com.urlShortener.repository.UrlRepository;
 import com.urlShortener.util.Base62Encoder;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 //import static jdk.internal.org.jline.utils.Colors.s;
 
@@ -59,9 +61,16 @@ public class urlService {
         return url != null && url.getUser() != null && url.getUser().getUsername().equals(username);
     }
 
+    @Transactional(readOnly = true)
     @org.springframework.cache.annotation.Cacheable(value = "urls", key = "#shortCode")
     public Url getUrlByShortCode(String shortCode) {
         System.out.println("[INFO] Cache MISS for code: " + shortCode + ". Fetching from PostgreSQL and saving to Redis...");
-        return repo.findByShortCode(shortCode);
+        Url url = repo.findByShortCode(shortCode);
+        // Force-initialize allowedEmails into a plain ArrayList so Redis
+        // serialization never touches a closed-session Hibernate proxy.
+        if (url != null && url.getAllowedEmails() != null) {
+            url.setAllowedEmails(new ArrayList<>(url.getAllowedEmails()));
+        }
+        return url;
     }
 }   

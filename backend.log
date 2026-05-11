@@ -1,0 +1,322 @@
+Attaching to ziplink-backend
+[36mziplink-backend |[0m 
+[36mziplink-backend |[0m   .   ____          _            __ _ _
+[36mziplink-backend |[0m  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+[36mziplink-backend |[0m ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+[36mziplink-backend |[0m  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+[36mziplink-backend |[0m   '  |____| .__|_| |_|_| |_\__, | / / / /
+[36mziplink-backend |[0m  =========|_|==============|___/=/_/_/_/
+[36mziplink-backend |[0m 
+[36mziplink-backend |[0m  :: Spring Boot ::                (v3.4.1)
+[36mziplink-backend |[0m 
+[36mziplink-backend |[0m 2026-04-24T03:14:27.864Z  INFO 1 --- [ziplink] [           main] com.urlShortener.BitlyCloneApplication   : Starting BitlyCloneApplication v0.0.1-SNAPSHOT using Java 17.0.18 with PID 1 (/app/app.jar started by root in /app)
+[36mziplink-backend |[0m 2026-04-24T03:14:27.871Z  INFO 1 --- [ziplink] [           main] com.urlShortener.BitlyCloneApplication   : No active profile set, falling back to 1 default profile: "default"
+[36mziplink-backend |[0m 2026-04-24T03:14:29.446Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+[36mziplink-backend |[0m 2026-04-24T03:14:29.448Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[36mziplink-backend |[0m 2026-04-24T03:14:29.652Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 193 ms. Found 3 JPA repository interfaces.
+[36mziplink-backend |[0m 2026-04-24T03:14:29.674Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+[36mziplink-backend |[0m 2026-04-24T03:14:29.675Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[36mziplink-backend |[0m 2026-04-24T03:14:29.688Z  INFO 1 --- [ziplink] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.urlShortener.repository.UrlRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+[36mziplink-backend |[0m 2026-04-24T03:14:29.689Z  INFO 1 --- [ziplink] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.urlShortener.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+[36mziplink-backend |[0m 2026-04-24T03:14:29.689Z  INFO 1 --- [ziplink] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.urlShortener.repository.clickRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+[36mziplink-backend |[0m 2026-04-24T03:14:29.689Z  INFO 1 --- [ziplink] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+[36mziplink-backend |[0m 2026-04-24T03:14:30.248Z  INFO 1 --- [ziplink] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+[36mziplink-backend |[0m 2026-04-24T03:14:30.261Z  INFO 1 --- [ziplink] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+[36mziplink-backend |[0m 2026-04-24T03:14:30.261Z  INFO 1 --- [ziplink] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+[36mziplink-backend |[0m 2026-04-24T03:14:30.287Z  INFO 1 --- [ziplink] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+[36mziplink-backend |[0m 2026-04-24T03:14:30.288Z  INFO 1 --- [ziplink] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2357 ms
+[36mziplink-backend |[0m 2026-04-24T03:14:30.623Z  INFO 1 --- [ziplink] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+[36mziplink-backend |[0m 2026-04-24T03:14:30.919Z  INFO 1 --- [ziplink] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56b1e527
+[36mziplink-backend |[0m 2026-04-24T03:14:30.921Z  INFO 1 --- [ziplink] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+[36mziplink-backend |[0m 2026-04-24T03:14:31.002Z  INFO 1 --- [ziplink] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+[36mziplink-backend |[0m 2026-04-24T03:14:31.056Z  INFO 1 --- [ziplink] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.4.Final
+[36mziplink-backend |[0m 2026-04-24T03:14:31.084Z  INFO 1 --- [ziplink] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+[36mziplink-backend |[0m 2026-04-24T03:14:31.330Z  INFO 1 --- [ziplink] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+[36mziplink-backend |[0m 2026-04-24T03:14:31.385Z  WARN 1 --- [ziplink] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[36mziplink-backend |[0m 2026-04-24T03:14:31.397Z  INFO 1 --- [ziplink] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+[36mziplink-backend |[0m 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+[36mziplink-backend |[0m 	Database driver: undefined/unknown
+[36mziplink-backend |[0m 	Database version: 15.17
+[36mziplink-backend |[0m 	Autocommit mode: undefined/unknown
+[36mziplink-backend |[0m 	Isolation level: undefined/unknown
+[36mziplink-backend |[0m 	Minimum pool size: undefined/unknown
+[36mziplink-backend |[0m 	Maximum pool size: undefined/unknown
+[36mziplink-backend |[0m 2026-04-24T03:14:32.312Z  INFO 1 --- [ziplink] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[36mziplink-backend |[0m 2026-04-24T03:14:32.440Z  INFO 1 --- [ziplink] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+[36mziplink-backend |[0m 2026-04-24T03:14:32.783Z  INFO 1 --- [ziplink] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+[36mziplink-backend |[0m 2026-04-24T03:14:32.783Z  WARN 1 --- [ziplink] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+[36mziplink-backend |[0m 2026-04-24T03:14:32.853Z  INFO 1 --- [ziplink] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+[36mziplink-backend |[0m 2026-04-24T03:14:34.116Z  INFO 1 --- [ziplink] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+[36mziplink-backend |[0m 2026-04-24T03:14:34.125Z  INFO 1 --- [ziplink] [           main] com.urlShortener.BitlyCloneApplication   : Started BitlyCloneApplication in 6.858 seconds (process running for 7.641)
+[36mziplink-backend |[0m 2026-04-24T03:15:18.414Z  INFO 1 --- [ziplink] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[36mziplink-backend |[0m 2026-04-24T03:15:18.415Z  INFO 1 --- [ziplink] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[36mziplink-backend |[0m 2026-04-24T03:15:18.421Z  INFO 1 --- [ziplink] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+[36mziplink-backend |[0m 2026-04-24T03:15:18.737Z DEBUG 1 --- [ziplink] [nio-8080-exec-1] org.hibernate.SQL                        : 
+[36mziplink-backend |[0m     insert 
+[36mziplink-backend |[0m     into
+[36mziplink-backend |[0m         urls
+[36mziplink-backend |[0m         (created_at, is_protected, link_password, original_url, protection_type, short_code, user_id) 
+[36mziplink-backend |[0m     values
+[36mziplink-backend |[0m         (?, ?, ?, ?, ?, ?, ?)
+[36mziplink-backend |[0m Hibernate: 
+[36mziplink-backend |[0m     insert 
+[36mziplink-backend |[0m     into
+[36mziplink-backend |[0m         urls
+[36mziplink-backend |[0m         (created_at, is_protected, link_password, original_url, protection_type, short_code, user_id) 
+[36mziplink-backend |[0m     values
+[36mziplink-backend |[0m         (?, ?, ?, ?, ?, ?, ?)
+[36mziplink-backend |[0m 2026-04-24T03:15:18.899Z DEBUG 1 --- [ziplink] [nio-8080-exec-1] org.hibernate.SQL                        : 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         u1_0.id,
+[36mziplink-backend |[0m         u1_0.created_at,
+[36mziplink-backend |[0m         u1_0.is_protected,
+[36mziplink-backend |[0m         u1_0.link_password,
+[36mziplink-backend |[0m         u1_0.original_url,
+[36mziplink-backend |[0m         u1_0.protection_type,
+[36mziplink-backend |[0m         u1_0.short_code,
+[36mziplink-backend |[0m         u2_0.id,
+[36mziplink-backend |[0m         u2_0.created_at,
+[36mziplink-backend |[0m         u2_0.email,
+[36mziplink-backend |[0m         u2_0.password,
+[36mziplink-backend |[0m         u2_0.username,
+[36mziplink-backend |[0m         ae1_0.url_id,
+[36mziplink-backend |[0m         ae1_0.email 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         urls u1_0 
+[36mziplink-backend |[0m     left join
+[36mziplink-backend |[0m         users u2_0 
+[36mziplink-backend |[0m             on u2_0.id=u1_0.user_id 
+[36mziplink-backend |[0m     left join
+[36mziplink-backend |[0m         url_allowed_emails ae1_0 
+[36mziplink-backend |[0m             on u1_0.id=ae1_0.url_id 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         u1_0.id=?
+[36mziplink-backend |[0m Hibernate: 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         u1_0.id,
+[36mziplink-backend |[0m         u1_0.created_at,
+[36mziplink-backend |[0m         u1_0.is_protected,
+[36mziplink-backend |[0m         u1_0.link_password,
+[36mziplink-backend |[0m         u1_0.original_url,
+[36mziplink-backend |[0m         u1_0.protection_type,
+[36mziplink-backend |[0m         u1_0.short_code,
+[36mziplink-backend |[0m         u2_0.id,
+[36mziplink-backend |[0m         u2_0.created_at,
+[36mziplink-backend |[0m         u2_0.email,
+[36mziplink-backend |[0m         u2_0.password,
+[36mziplink-backend |[0m         u2_0.username,
+[36mziplink-backend |[0m         ae1_0.url_id,
+[36mziplink-backend |[0m         ae1_0.email 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         urls u1_0 
+[36mziplink-backend |[0m     left join
+[36mziplink-backend |[0m         users u2_0 
+[36mziplink-backend |[0m             on u2_0.id=u1_0.user_id 
+[36mziplink-backend |[0m     left join
+[36mziplink-backend |[0m         url_allowed_emails ae1_0 
+[36mziplink-backend |[0m             on u1_0.id=ae1_0.url_id 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         u1_0.id=?
+[36mziplink-backend |[0m 2026-04-24T03:15:18.950Z DEBUG 1 --- [ziplink] [nio-8080-exec-1] org.hibernate.SQL                        : 
+[36mziplink-backend |[0m     update
+[36mziplink-backend |[0m         urls 
+[36mziplink-backend |[0m     set
+[36mziplink-backend |[0m         is_protected=?,
+[36mziplink-backend |[0m         link_password=?,
+[36mziplink-backend |[0m         original_url=?,
+[36mziplink-backend |[0m         protection_type=?,
+[36mziplink-backend |[0m         short_code=?,
+[36mziplink-backend |[0m         user_id=? 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         id=?
+[36mziplink-backend |[0m Hibernate: 
+[36mziplink-backend |[0m     update
+[36mziplink-backend |[0m         urls 
+[36mziplink-backend |[0m     set
+[36mziplink-backend |[0m         is_protected=?,
+[36mziplink-backend |[0m         link_password=?,
+[36mziplink-backend |[0m         original_url=?,
+[36mziplink-backend |[0m         protection_type=?,
+[36mziplink-backend |[0m         short_code=?,
+[36mziplink-backend |[0m         user_id=? 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         id=?
+[36mziplink-backend |[0m [INFO] Cache MISS for code: 6. Fetching from PostgreSQL and saving to Redis...
+[36mziplink-backend |[0m 2026-04-24T03:15:50.458Z DEBUG 1 --- [ziplink] [nio-8080-exec-4] org.hibernate.SQL                        : 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         u1_0.id,
+[36mziplink-backend |[0m         u1_0.created_at,
+[36mziplink-backend |[0m         u1_0.is_protected,
+[36mziplink-backend |[0m         u1_0.link_password,
+[36mziplink-backend |[0m         u1_0.original_url,
+[36mziplink-backend |[0m         u1_0.protection_type,
+[36mziplink-backend |[0m         u1_0.short_code,
+[36mziplink-backend |[0m         u1_0.user_id 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         urls u1_0 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         u1_0.short_code=?
+[36mziplink-backend |[0m Hibernate: 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         u1_0.id,
+[36mziplink-backend |[0m         u1_0.created_at,
+[36mziplink-backend |[0m         u1_0.is_protected,
+[36mziplink-backend |[0m         u1_0.link_password,
+[36mziplink-backend |[0m         u1_0.original_url,
+[36mziplink-backend |[0m         u1_0.protection_type,
+[36mziplink-backend |[0m         u1_0.short_code,
+[36mziplink-backend |[0m         u1_0.user_id 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         urls u1_0 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         u1_0.short_code=?
+[36mziplink-backend |[0m 2026-04-24T03:15:50.470Z DEBUG 1 --- [ziplink] [nio-8080-exec-4] org.hibernate.SQL                        : 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         ae1_0.url_id,
+[36mziplink-backend |[0m         ae1_0.email 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         url_allowed_emails ae1_0 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         ae1_0.url_id=?
+[36mziplink-backend |[0m Hibernate: 
+[36mziplink-backend |[0m     select
+[36mziplink-backend |[0m         ae1_0.url_id,
+[36mziplink-backend |[0m         ae1_0.email 
+[36mziplink-backend |[0m     from
+[36mziplink-backend |[0m         url_allowed_emails ae1_0 
+[36mziplink-backend |[0m     where
+[36mziplink-backend |[0m         ae1_0.url_id=?
+[36mziplink-backend |[0m 2026-04-24T03:15:50.509Z ERROR 1 --- [ziplink] [nio-8080-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.data.redis.serializer.SerializationException: Could not write JSON: Java 8 date/time type `java.time.LocalDateTime` not supported by default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" to enable handling (through reference chain: com.urlShortener.entity.Url["createdAt"])] with root cause
+[36mziplink-backend |[0m 
+[36mziplink-backend |[0m com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Java 8 date/time type `java.time.LocalDateTime` not supported by default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" to enable handling (through reference chain: com.urlShortener.entity.Url["createdAt"])
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.exc.InvalidDefinitionException.from(InvalidDefinitionException.java:77) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.SerializerProvider.reportBadDefinition(SerializerProvider.java:1328) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.impl.UnsupportedTypeSerializer.serialize(UnsupportedTypeSerializer.java:35) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:732) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:653) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:502) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:341) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4811) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at com.fasterxml.jackson.databind.ObjectMapper.writeValueAsBytes(ObjectMapper.java:4077) ~[jackson-databind-2.18.2.jar!/:2.18.2]
+[36mziplink-backend |[0m 	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.serialize(GenericJackson2JsonRedisSerializer.java:273) ~[spring-data-redis-3.4.1.jar!/:3.4.1]
+[36mziplink-backend |[0m 	at org.springframework.data.redis.serializer.DefaultRedisElementWriter.write(DefaultRedisElementWriter.java:42) ~[spring-data-redis-3.4.1.jar!/:3.4.1]
+[36mziplink-backend |[0m 	at org.springframework.data.redis.serializer.RedisSerializationContext$SerializationPair.write(RedisSerializationContext.java:292) ~[spring-data-redis-3.4.1.jar!/:3.4.1]
+[36mziplink-backend |[0m 	at org.springframework.data.redis.cache.RedisCache.serializeCacheValue(RedisCache.java:343) ~[spring-data-redis-3.4.1.jar!/:3.4.1]
+[36mziplink-backend |[0m 	at org.springframework.data.redis.cache.RedisCache.put(RedisCache.java:204) ~[spring-data-redis-3.4.1.jar!/:3.4.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.AbstractCacheInvoker.doPut(AbstractCacheInvoker.java:164) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheAspectSupport$CachePutRequest.performCachePut(CacheAspectSupport.java:1051) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheAspectSupport$CachePutRequest.apply(CacheAspectSupport.java:1036) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheAspectSupport.evaluate(CacheAspectSupport.java:580) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheAspectSupport.execute(CacheAspectSupport.java:447) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheAspectSupport.execute(CacheAspectSupport.java:409) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.cache.interceptor.CacheInterceptor.invoke(CacheInterceptor.java:65) ~[spring-context-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727) ~[spring-aop-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at com.urlShortener.service.urlService$$SpringCGLIB$$0.getUrlByShortCode(<generated>) ~[!/:0.0.1-SNAPSHOT]
+[36mziplink-backend |[0m 	at com.urlShortener.controller.UrlController.redirect(UrlController.java:173) ~[!/:0.0.1-SNAPSHOT]
+[36mziplink-backend |[0m 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+[36mziplink-backend |[0m 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[na:na]
+[36mziplink-backend |[0m 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[na:na]
+[36mziplink-backend |[0m 	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[na:na]
+[36mziplink-backend |[0m 	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:257) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1088) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:978) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at com.urlShortener.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:35) ~[!/:0.0.1-SNAPSHOT]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:243) ~[spring-webmvc-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:238) ~[spring-security-config-6.4.2.jar!/:6.4.2]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.1.jar!/:6.2.1]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar!/:na]
+[36mziplink-backend |[0m 	at java.base/java.lang.Thread.run(Unknown Source) ~[na:na]
+[36mziplink-backend |[0m 

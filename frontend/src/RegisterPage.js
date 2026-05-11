@@ -46,7 +46,7 @@ export default function RegisterPage() {
       <div className="auth-card card animate-slideup">
         <div className="card-body">
           <div className="auth-header">
-            <div className="auth-icon">🚀</div>
+            <div className="auth-icon"></div>
             <h1 className="auth-title">Create account</h1>
             <p className="auth-subtitle">Join ZipLink — it's free forever</p>
           </div>
@@ -55,7 +55,7 @@ export default function RegisterPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="reg-username">Username</label>
               <div className="input-wrapper">
-                <span className="input-icon">👤</span>
+                <span className="input-icon"></span>
                 <input
                   id="reg-username"
                   name="username"
@@ -72,7 +72,7 @@ export default function RegisterPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="reg-email">Email</label>
               <div className="input-wrapper">
-                <span className="input-icon">📧</span>
+                <span className="input-icon"></span>
                 <input
                   id="reg-email"
                   name="email"
@@ -88,7 +88,7 @@ export default function RegisterPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="reg-password">Password</label>
               <div className="input-wrapper">
-                <span className="input-icon">🔒</span>
+                <span className="input-icon"></span>
                 <input
                   id="reg-password"
                   name="password"
@@ -104,7 +104,7 @@ export default function RegisterPage() {
             <div className="form-group">
               <label className="form-label" htmlFor="reg-confirm">Confirm Password</label>
               <div className="input-wrapper">
-                <span className="input-icon">✅</span>
+                <span className="input-icon"></span>
                 <input
                   id="reg-confirm"
                   name="confirm"
@@ -119,7 +119,7 @@ export default function RegisterPage() {
 
             {error && (
               <div className="alert alert-error mb-4">
-                <span className="alert-icon">⚠️</span>
+                <span className="alert-icon"></span>
                 <span>{error}</span>
               </div>
             )}
@@ -132,7 +132,7 @@ export default function RegisterPage() {
               {loading ? (
                 <><span className="spinner"></span> Creating account…</>
               ) : (
-                <>🚀 Create Account</>
+                <>Create Account</>
               )}
             </button>
           </form>

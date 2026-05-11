@@ -45,7 +45,7 @@ function AnalyticsPage() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#000000]">
                 <div className="text-center">
-                    <div className="animate-spin text-5xl mb-4">🌀</div>
+                    <div className="animate-spin text-5xl mb-4"></div>
                     <p className="text-slate-400 font-medium">Analyzing audience data...</p>
                 </div>
             </div>
@@ -107,7 +107,7 @@ function AnalyticsPage() {
                         
                         <div className="flex items-center gap-6">
                             <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[28px] flex items-center justify-center text-4xl shadow-2xl shadow-blue-500/20">
-                                <span role="img" aria-label="chart">📊</span>
+                                <span role="img" aria-label="chart"></span>
                             </div>
                             <div>
                                 <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2">
@@ -131,11 +131,11 @@ function AnalyticsPage() {
 
                 {error && (
                     <div className="bg-[#111] border-2 border-red-500/20 rounded-[40px] p-12 text-center max-w-2xl mx-auto shadow-2xl">
-                         <div className="text-7xl mb-6">🏜️</div>
+                         <div className="text-7xl mb-6"></div>
                          <h2 className="text-3xl font-black text-white mb-4 italic">"{error}"</h2>
                          <p className="text-slate-500 mb-8 font-medium">Check the alias or consult your terminal logs.</p>
                          <button onClick={() => navigate('/')} className="bg-blue-600 hover:bg-blue-500 text-white font-black py-4 px-10 rounded-2xl transition shadow-xl shadow-blue-500/20">
-                            BACK TO BASE 🏠
+                            BACK TO BASE
                          </button>
                     </div>
                 )}
@@ -148,34 +148,34 @@ function AnalyticsPage() {
                                 title="Total Engagement" 
                                 value={analytics.totalClicks} 
                                 subValue="CLICK REACH" 
-                                icon="📈" 
+                                icon=""
                                 accentColor="#3b82f6" 
                             />
                             <StatCard 
                                 title="Days Tracked" 
                                 value={analytics.dailyClicks ? analytics.dailyClicks.length : 0} 
                                 subValue="TIME SPAN" 
-                                icon="🗓️" 
+                                icon=""
                                 accentColor="#10b981" 
                             />
                             <StatCard 
                                 title="Top Referrer" 
                                 value={analytics.referrers?.[0]?.name === "Direct / Referral" ? "Direct" : (analytics.referrers?.[0]?.name || 'N/A')} 
                                 subValue="PRIMARY ORIGIN" 
-                                icon="🌐" 
+                                icon=""
                                 accentColor="#8b5cf6" 
                             />
                             <StatCard 
                                 title="Primary Device" 
                                 value={analytics.devices?.[0]?.name || 'N/A'} 
                                 subValue="DOMINANT PLATFORM" 
-                                icon="📱" 
+                                icon=""
                                 accentColor="#f59e0b" 
                             />
                         </div>
 
                         {/* Main Trend Chart */}
-                        <ChartCard title="Daily Traffic Volume" icon="⚡">
+                        <ChartCard title="Daily Traffic Volume" icon="">
                              {analytics.dailyClicks && analytics.dailyClicks.length > 0 ? (
                                 <div className="space-y-12">
                                     <div className="w-full h-[400px]">
@@ -215,14 +215,14 @@ function AnalyticsPage() {
                                                         <p className="text-slate-500 text-[10px] font-black tracking-widest uppercase mb-1">{day.date}</p>
                                                         <p className="text-2xl font-black text-white">{day.count} <span className="text-xs text-slate-500">Hits</span></p>
                                                    </div>
-                                                   <div className={`text-xl ${i === 0 ? 'text-emerald-400 opacity-100' : 'opacity-20'}`}>⏺</div>
+                                                   <div className={`text-xl ${i === 0 ? 'text-emerald-400 opacity-100' : 'opacity-20'}`}></div>
                                               </div>
                                          ))}
                                     </div>
                                 </div>
                              ) : (
                                 <div className="py-32 flex flex-col items-center justify-center text-center">
-                                    <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center text-4xl mb-6">📉</div>
+                                    <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center text-4xl mb-6"></div>
                                     <h4 className="text-xl font-black text-white mb-2 italic">Zero Engagement Detected</h4>
                                     <p className="text-slate-500 max-w-sm font-medium">The digital trails are quiet. Share your link to ignite the tracking engine.</p>
                                 </div>
@@ -231,15 +231,15 @@ function AnalyticsPage() {
 
                         {/* Detailed Segments Grid */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <SegmentedPanel title="Referral Origins" data={analytics.referrers} icon="🚀" />
-                            <SegmentedPanel title="Device Ecosystem" data={analytics.devices} icon="🔋" />
-                            <SegmentedPanel title="Browser Stack" data={analytics.browsers} icon="🧭" />
-                            <SegmentedPanel title="OS Dominance" data={analytics.platforms} icon="🕹️" />
+                            <SegmentedPanel title="Referral Origins" data={analytics.referrers} icon="" />
+                            <SegmentedPanel title="Device Ecosystem" data={analytics.devices} icon="" />
+                            <SegmentedPanel title="Browser Stack" data={analytics.browsers} icon="" />
+                            <SegmentedPanel title="OS Dominance" data={analytics.platforms} icon="" />
                         </div>
 
                         {/* Professional Note */}
                         <div className="bg-[#111] p-10 rounded-[44px] border border-white/5 flex flex-col md:flex-row items-center gap-10">
-                             <div className="text-8xl p-6 bg-white/5 rounded-full select-none">💎</div>
+                             <div className="text-8xl p-6 bg-white/5 rounded-full select-none"></div>
                              <div>
                                 <h3 className="text-2xl font-black text-white mb-3">Professional Data Analytics</h3>
                                 <p className="text-slate-500 font-medium leading-relaxed max-w-3xl">
